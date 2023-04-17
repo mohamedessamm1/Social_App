@@ -12,5 +12,10 @@ class ChangeRememberMeState extends SignStates {}
 
 
 class UserCreateLoadingState extends SignStates {}
-class UserCreateSuccessState extends SignStates {}
+class UserCreateSuccessState extends SignStates {
+  final ModelCreate;
+
+  UserCreateSuccessState(this.ModelCreate);
+
+}
 class UserCreateerrorState extends SignStates {}
