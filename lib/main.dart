@@ -15,23 +15,17 @@ import 'modules/SignIn/SignUp.dart';
 import 'modules/SignIn/Signup_Cubit.dart';
 import 'modules/settings/Settings.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await  Firebase.initializeApp();
- await CacheHelper.initcache();
- String cacheint =  CacheHelper.getdata(key: 'uid').toString();
- print(cacheint);
+  await Firebase.initializeApp();
+  await CacheHelper.initcache();
+  String cacheint = CacheHelper.getdata(key: 'uid').toString();
+  print(cacheint);
 
-
-  runApp(  MyApp(
-  ));
-
-
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -40,27 +34,23 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, screenUtil) {
-          return  MultiBlocProvider(
-              providers:
-
-              [
-                BlocProvider(create: (context) => AppCubit()..GetUserData()..GetPosts()),
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                    create: (context) => AppCubit()
+                      ..GetUserData()
+                      ..GetPosts()),
                 BlocProvider(create: (context) => LoginCubit()),
                 BlocProvider(create: (context) => SignCubit()),
-
               ],
               child: MaterialApp(
                 theme: ThemeData(fontFamily: 'arimo'),
-
                 debugShowCheckedModeBanner: false,
                 home: Scaffold(
-                   body:CacheHelper.getdata(key: 'uid')==null? loginscreen() :HomeLayout()
-                ),
-              )
-          );
-        }
-       );
+                    body: CacheHelper.getdata(key: 'uid') == null
+                        ? loginscreen()
+                        : HomeLayout()),
+              ));
+        });
   }
 }
-
-

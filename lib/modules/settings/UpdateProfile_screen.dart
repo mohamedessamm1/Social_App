@@ -71,7 +71,7 @@ class UpdateProfileScreen extends StatelessWidget {
               child: Column(children: [
                 if (state is PickProfileSuccesState ||
                     state is PickCoverSuccesState) ...{
-                   LinearProgressIndicator(
+                  LinearProgressIndicator(
                     minHeight: 1.9,
                     color: Colors.blue.shade900,
                     backgroundColor: Colors.black,
@@ -232,31 +232,36 @@ class UpdateProfileScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: 20.w,),
-                    ConditionalBuilder(
-                        condition: state is! UpdateUserNameDataLoadingState ,
-                        builder: (context)=>Expanded(
-                          child: defaultFormField(
-                              FormFieldStyle: const TextStyle(color: Colors.white),
-                              HintStyle: TextStyle(
-                                  color: Colors.grey.shade300,
-                                  fontWeight: FontWeight.w500),
-                              controller: UpdateName,
-                              Hint: 'Your Name',
-                              type: TextInputType.name,
-                              mycolor: Colors.grey.shade800),
-                        ),
-
-                        fallback: (context)=>  CircularProgressIndicator(color: Colors.blue.shade900,)
+                    SizedBox(
+                      width: 20.w,
                     ),
-                    if(state is! UpdateUserNameDataLoadingState)...{
-                      IconButton(onPressed: (){
-
-                        AppCubit.get(context).UpdateUserDataName(
-                            name: UpdateName.text
-                        );
-                      }, icon: Icon(Icons.save,color: Colors.blue.shade900,))
-
+                    ConditionalBuilder(
+                        condition: state is! UpdateUserNameDataLoadingState,
+                        builder: (context) => Expanded(
+                              child: defaultFormField(
+                                  FormFieldStyle:
+                                      const TextStyle(color: Colors.white),
+                                  HintStyle: TextStyle(
+                                      color: Colors.grey.shade300,
+                                      fontWeight: FontWeight.w500),
+                                  controller: UpdateName,
+                                  Hint: 'Your Name',
+                                  type: TextInputType.name,
+                                  mycolor: Colors.grey.shade800),
+                            ),
+                        fallback: (context) => CircularProgressIndicator(
+                              color: Colors.blue.shade900,
+                            )),
+                    if (state is! UpdateUserNameDataLoadingState) ...{
+                      IconButton(
+                          onPressed: () {
+                            AppCubit.get(context)
+                                .UpdateUserDataName(name: UpdateName.text);
+                          },
+                          icon: Icon(
+                            Icons.save,
+                            color: Colors.blue.shade900,
+                          ))
                     }
                   ],
                 ),
@@ -280,33 +285,34 @@ class UpdateProfileScreen extends StatelessWidget {
                       width: 20.w,
                     ),
                     ConditionalBuilder(
-                        condition: state is! UpdateUserBioDataLoadingState ,
-                        builder: (context)=>                    Expanded(
-                          child: defaultFormField(
-                              mywidth: 300,
-                              FormFieldStyle: const TextStyle(color: Colors.white),
-                              mycolor: Colors.grey.shade800,
-                              HintStyle: TextStyle(
-                                  color: Colors.grey.shade300,
-                                  fontWeight: FontWeight.w500),
-                              Hint: 'Your name',
-                              controller: UpdateBio,
-                              type: TextInputType.text),
-                        ),
-
-
-                        fallback: (context)=>  CircularProgressIndicator(color: Colors.blue.shade900,)
-                    ),
-                    if(state is! UpdateUserBioDataLoadingState)...{
-                      IconButton(onPressed: (){
-
-                        AppCubit.get(context).UpdateUserDataBio(
-                            bio: UpdateBio.text
-                        );
-                      }, icon: Icon(Icons.save,color: Colors.blue.shade900,))
-
-                    }
-,
+                        condition: state is! UpdateUserBioDataLoadingState,
+                        builder: (context) => Expanded(
+                              child: defaultFormField(
+                                  mywidth: 300,
+                                  FormFieldStyle:
+                                      const TextStyle(color: Colors.white),
+                                  mycolor: Colors.grey.shade800,
+                                  HintStyle: TextStyle(
+                                      color: Colors.grey.shade300,
+                                      fontWeight: FontWeight.w500),
+                                  Hint: 'Your name',
+                                  controller: UpdateBio,
+                                  type: TextInputType.text),
+                            ),
+                        fallback: (context) => CircularProgressIndicator(
+                              color: Colors.blue.shade900,
+                            )),
+                    if (state is! UpdateUserBioDataLoadingState) ...{
+                      IconButton(
+                          onPressed: () {
+                            AppCubit.get(context)
+                                .UpdateUserDataBio(bio: UpdateBio.text);
+                          },
+                          icon: Icon(
+                            Icons.save,
+                            color: Colors.blue.shade900,
+                          ))
+                    },
                   ],
                 ),
                 SizedBox(height: 20.h),
@@ -324,38 +330,40 @@ class UpdateProfileScreen extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-
                   children: [
-                    SizedBox(width: 20.w,),
-                    ConditionalBuilder(
-                        condition: state is! UpdateUserPhoneDataLoadingState ,
-                        builder: (context)=> Expanded(
-                          child: defaultFormField(
-                              FormFieldStyle: const TextStyle(color: Colors.white),
-                              mycolor: Colors.grey.shade800,
-                              HintStyle: TextStyle(
-                                  color: Colors.grey.shade300,
-                                  fontWeight: FontWeight.w500),
-                              Hint: 'Your Phone',
-                              controller: UpdatePhone,
-                              type: TextInputType.phone),
-                        ),
-
-                        fallback: (context)=>  CircularProgressIndicator(color: Colors.blue.shade900,)
+                    SizedBox(
+                      width: 20.w,
                     ),
-                    if(state is! UpdateUserPhoneDataLoadingState)...{
-                      IconButton(onPressed: (){
-
-                        AppCubit.get(context).UpdateUserDataPhone(
-                            phone: UpdatePhone.text
-                        );
-                        print(GLOBALuid);
-                        print(userModel?.uid);
-                      }, icon: Icon(Icons.save,color: Colors.blue.shade900,))
-
+                    ConditionalBuilder(
+                        condition: state is! UpdateUserPhoneDataLoadingState,
+                        builder: (context) => Expanded(
+                              child: defaultFormField(
+                                  FormFieldStyle:
+                                      const TextStyle(color: Colors.white),
+                                  mycolor: Colors.grey.shade800,
+                                  HintStyle: TextStyle(
+                                      color: Colors.grey.shade300,
+                                      fontWeight: FontWeight.w500),
+                                  Hint: 'Your Phone',
+                                  controller: UpdatePhone,
+                                  type: TextInputType.phone),
+                            ),
+                        fallback: (context) => CircularProgressIndicator(
+                              color: Colors.blue.shade900,
+                            )),
+                    if (state is! UpdateUserPhoneDataLoadingState) ...{
+                      IconButton(
+                          onPressed: () {
+                            AppCubit.get(context)
+                                .UpdateUserDataPhone(phone: UpdatePhone.text);
+                            print(GLOBALuid);
+                            print(userModel?.uid);
+                          },
+                          icon: Icon(
+                            Icons.save,
+                            color: Colors.blue.shade900,
+                          ))
                     }
-
-
                   ],
                 ),
               ]),

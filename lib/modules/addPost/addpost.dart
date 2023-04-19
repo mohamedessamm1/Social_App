@@ -47,7 +47,6 @@ class AddPost extends StatelessWidget {
                   Navigator.pop(context);
                   AppCubit.get(context).CancelPostImage();
                   PostController.clear();
-
                 },
                 child: const Text(
                   'Post',

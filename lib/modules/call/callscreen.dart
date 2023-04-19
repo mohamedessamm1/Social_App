@@ -127,18 +127,21 @@ class callscreen extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: MyButton(backgroundcolor: Colors.blue.shade900,function: (){
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        callpage(
-                                                          callid:
-                                                          Textcontorl
-                                                              .text,
-                                                        )));
-                                          }, text: 'Connect')
-                                        ),
+                                            child: MyButton(
+                                                backgroundcolor:
+                                                    Colors.blue.shade900,
+                                                function: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              callpage(
+                                                                callid:
+                                                                    Textcontorl
+                                                                        .text,
+                                                              )));
+                                                },
+                                                text: 'Connect')),
                                       ],
                                     ),
                                   )
@@ -160,11 +163,11 @@ class callscreen extends StatelessWidget {
                                           fillColor: Colors.grey.shade900,
                                           filled: true,
                                           hintStyle:
-                                          TextStyle(color: Colors.white),
+                                              TextStyle(color: Colors.white),
                                           labelText: 'Video ID',
                                           hintText: 'Please Enter Video ID',
                                           labelStyle:
-                                          TextStyle(color: Colors.white),
+                                              TextStyle(color: Colors.white),
                                           border: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                   color: Colors.white)),
@@ -181,18 +184,21 @@ class callscreen extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                            child: MyButton(backgroundcolor: Colors.blue.shade900,function: (){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          VideoPage(
-                                                            callid:
-                                                            Textcontorl
-                                                                .text,
-                                                          )));
-                                            }, text: 'Connect')
-                                        ),
+                                            child: MyButton(
+                                                backgroundcolor:
+                                                    Colors.blue.shade900,
+                                                function: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              VideoPage(
+                                                                callid:
+                                                                    Textcontorl
+                                                                        .text,
+                                                              )));
+                                                },
+                                                text: 'Connect')),
                                       ],
                                     ),
                                   )

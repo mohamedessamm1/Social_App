@@ -41,8 +41,7 @@ class HomeLayout extends StatelessWidget {
                   backgroundColor: Colors.black),
               const BottomNavigationBarItem(
                   icon: Icon(
-                    IconBroken.Video
-                    ,
+                    IconBroken.Video,
                   ),
                   label: 'Video Call',
                   backgroundColor: Colors.black),

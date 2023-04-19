@@ -7,6 +7,7 @@ class CreateUserModel {
   String? image;
   String? ImageBackGround;
   String? bio;
+
   CreateUserModel({
     this.name,
     this.email,
@@ -28,6 +29,7 @@ class CreateUserModel {
     ImageBackGround = json?['ImageBackGround'];
     bio = json?['bio'];
   }
+
   Map<String, dynamic> tojson() {
     return {
       'name': name,

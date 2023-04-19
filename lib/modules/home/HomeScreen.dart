@@ -59,196 +59,198 @@ class HomeScreen extends StatelessWidget {
             ),
             backgroundColor: Colors.black,
             body: ConditionalBuilder(
-                condition: AppCubit.get(context).posts.isNotEmpty ,
+                condition: state is! GetPostsLoadingState,
                 builder: (context) => SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => Card(
-                            color: Colors.grey.shade900,
-                            child: Padding(
-                              padding: EdgeInsets.all(5.0.w),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                          backgroundColor:
-                                          Colors.grey.shade800,
-                                          backgroundImage: NetworkImage(
-                                              '${model[index]['MyImage']}')),
-                                      SizedBox(
-                                        width: 20.w,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => Card(
+                                    color: Colors.grey.shade900,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(5.0.w),
+                                      child: Column(
                                         children: [
-                                          Text(
-                                            '${model[index]['MyName']}',
-                                            style: const TextStyle(
-                                                fontWeight:
-                                                FontWeight.bold,
-                                                color: Colors.white),
+                                          Row(
+                                            children: [
+                                              CircleAvatar(
+                                                  radius: 24.r,
+                                                  backgroundColor:
+                                                      Colors.grey.shade800,
+                                                  backgroundImage: NetworkImage(
+                                                      '${model[index]['MyImage']}')),
+                                              SizedBox(
+                                                width: 15.w,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${model[index]['MyName']}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18.sp,
+                                                        color: Colors.white),
+                                                  ),
+                                                  Text(
+                                                    '${model[index]['Time']}',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 13.sp),
+                                                  )
+                                                ],
+                                              ),
+                                              const Spacer(),
+                                              model[index]['uid'] ==
+                                                      CacheHelper.getdata(
+                                                          key: 'uid')
+                                                  ? IconButton(
+                                                      icon: const Icon(
+                                                          IconBroken.Delete),
+                                                      onPressed: () {
+                                                        AppCubit.get(context)
+                                                            .DeletePost(AppCubit
+                                                                    .get(
+                                                                        context)
+                                                                .PostId[index]);
+                                                      },
+                                                      color: Colors.white,
+                                                    )
+                                                  : Text(''),
+                                            ],
                                           ),
-                                          Text(
-                                            '${model[index]['Time']}',
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 13.sp),
+                                          Divider(
+                                            color: Colors.grey.shade800,
+                                          ),
+                                          SizedBox(
+                                            height: 20.h,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 300.w,
+                                                child: Text(
+                                                  '''  ${model[index]['MyText']} ''',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 24.sp),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20.h,
+                                          ),
+                                          if (model[index]['PostImage'] !=
+                                              null) ...{
+                                            Container(
+                                              width: double.infinity,
+                                              height: 400.h,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r),
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                          '${model[index]['PostImage']}'))),
+                                            ),
+                                          },
+                                          SizedBox(
+                                            height: 5.h,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Spacer(flex: 1),
+                                              Icon(IconBroken.Heart,
+                                                  color: Colors.red),
+                                              Text(
+                                                '25 Likes',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                              Spacer(flex: 12),
+                                              Icon(IconBroken.Chat,
+                                                  color: Colors.grey),
+                                              Text(
+                                                ' 0 comments',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                              Spacer(flex: 1),
+                                            ],
+                                          ),
+                                          Divider(
+                                            color: Colors.grey.shade800,
+                                          ),
+                                          Row(
+                                            children: [
+                                              CircleAvatar(
+                                                  radius: 16,
+                                                  backgroundImage: NetworkImage(
+                                                      '${userModel?.image}')),
+                                              SizedBox(
+                                                width: 10.w,
+                                              ),
+                                              SizedBox(
+                                                width: 190.w,
+                                                child: TextFormField(
+                                                  decoration: InputDecoration(
+                                                    hintText:
+                                                        'Write a comment...',
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 15.sp),
+                                                  ),
+                                                ),
+                                              ),
+                                              const Spacer(
+                                                flex: 1,
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {},
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        IconBroken.Heart,
+                                                        size: 22.w,
+                                                        color: Colors.white,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5.w,
+                                                      ),
+                                                      Text(
+                                                        'Like',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      )
+                                                    ],
+                                                  )),
+                                              const Spacer(
+                                                flex: 1,
+                                              ),
+                                            ],
                                           )
                                         ],
                                       ),
-                                      const Spacer(),
-                                      model[index]['uid']== CacheHelper.getdata(key: 'uid')?
-                                      IconButton(
-                                        icon: const Icon(
-                                            IconBroken.Delete),
-                                        onPressed: () {
-                                          AppCubit.get(context).DeletePost(AppCubit.get(context).PostId[index]);
-
-                                        },
-                                        color: Colors.white,
-                                      )
-:
-                                          Text(''),
-
-
-
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: Colors.grey.shade800,
-                                  ),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 300.w
-                                        ,child: Text(
-                                          '''  ${model[index]['MyText']} ''',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 24.sp),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  if (model[index]['PostImage'] !=
-                                      null) ...{
-                                    Container(
-                                      width: double.infinity,
-                                      height: 400.h,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              10.r),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                  '${model[index]['PostImage']}'))),
                                     ),
-                                  },
-                                  SizedBox(
-                                    height: 5.h,
                                   ),
-                                  Row(
-                                    children: [
-                                      Spacer(flex: 1),
-                                      Icon(IconBroken.Heart,
-                                          color: Colors.red),
-                                      Text(
-                                        '25 Likes',
-                                        style: TextStyle(
-                                            color: Colors.grey),
-                                      ),
-                                      Spacer(flex: 12),
-                                      Icon(IconBroken.Chat,
-                                          color: Colors.grey),
-                                      Text(
-                                        ' 0 comments',
-                                        style: TextStyle(
-                                            color: Colors.grey),
-                                      ),
-                                      Spacer(flex: 1),
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: Colors.grey.shade800,
-                                  ),
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                          radius: 16,
-                                          backgroundImage: NetworkImage(
-                                              '${userModel?.image}')),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      SizedBox(
-                                        width: 190.w,
-                                        child: TextFormField(
-                                          decoration: InputDecoration(
-                                            hintText:
-                                            'Write a comment...',
-                                            hintStyle: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 15.sp),
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                      TextButton(
-                                          onPressed: () {
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                IconBroken.Heart,
-                                                size: 22.w,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 5.w,
-                                              ),
-                                              Text(
-                                                'Like',
-                                                style: TextStyle(
-                                                    color:
-                                                    Colors.white),
-                                              )
-                                            ],
-                                          )),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          separatorBuilder: (context, index) =>
-                          const Divider(),
-                          itemCount: AppCubit.get(context).posts.length)
-                    ],
-                  ),
-                ),
-                fallback: (context) =>  Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue.shade900,
-                  ),
-                )));
+                              separatorBuilder: (context, index) =>
+                                  const Divider(),
+                              itemCount: AppCubit.get(context).posts.length)
+                        ],
+                      ),
+                    ),
+                fallback: (context) => Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.blue.shade900,
+                      ),
+                    )));
       },
     );
   }

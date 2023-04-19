@@ -7,15 +7,15 @@ class AddPostModel {
   String? uid;
   int? postindex;
 
-  AddPostModel(
-      {this.MyImage,
-      this.MyName,
-      this.Time,
-      this.MyText,
-      this.PostImage,
-      this.uid,
-      this.postindex,
-      });
+  AddPostModel({
+    this.MyImage,
+    this.MyName,
+    this.Time,
+    this.MyText,
+    this.PostImage,
+    this.uid,
+    this.postindex,
+  });
 
   AddPostModel.fromjson(Map<String, dynamic>? json) {
     MyImage = json?['MyImage'];
@@ -26,6 +26,7 @@ class AddPostModel {
     uid = json?['uid'];
     postindex = json?['postindex'];
   }
+
   Map<String, dynamic> tojson() {
     return {
       'MyImage': MyImage,

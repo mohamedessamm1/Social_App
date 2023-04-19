@@ -1,4 +1,3 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +9,7 @@ import '../Login/Login.dart';
 import 'Signup_Cubit.dart';
 import 'Signup_States.dart';
 
-
-class RegisterScreen extends  StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   var formkey = GlobalKey<FormState>();
   var emailcontrol = TextEditingController();
   var passwordcontrol = TextEditingController();
@@ -24,7 +22,7 @@ class RegisterScreen extends  StatelessWidget {
         create: (context) => SignCubit(),
         child: BlocConsumer<SignCubit, SignStates>(
           listener: (context, state) {
-            if(state is SignRegisterSuccessState){
+            if (state is SignRegisterSuccessState) {
               Fluttertoast.showToast(
                   msg: "SignUp successful",
                   toastLength: Toast.LENGTH_SHORT,
@@ -32,10 +30,9 @@ class RegisterScreen extends  StatelessWidget {
                   timeInSecForIosWeb: 1,
                   backgroundColor: Colors.green,
                   textColor: Colors.white,
-                  fontSize: 16.0.sp
-              );
+                  fontSize: 16.0.sp);
             }
-            if(state is SignRegistrerrorState){
+            if (state is SignRegistrerrorState) {
               Fluttertoast.showToast(
                   msg: "Email Format is Incorect",
                   toastLength: Toast.LENGTH_SHORT,
@@ -43,14 +40,12 @@ class RegisterScreen extends  StatelessWidget {
                   timeInSecForIosWeb: 1,
                   backgroundColor: Colors.red,
                   textColor: Colors.white,
-                  fontSize: 16.0.sp
-              );
+                  fontSize: 16.0.sp);
             }
           },
           builder: (context, state) {
             return Scaffold(
               backgroundColor: Colors.black,
-
               body: SingleChildScrollView(
                 child: SafeArea(
                   child: Column(
@@ -60,21 +55,22 @@ class RegisterScreen extends  StatelessWidget {
                           Image.asset('assets/images/ground.png'),
                           Column(
                             children: [
-                              SizedBox(height: 140.h,),
+                              SizedBox(
+                                height: 140.h,
+                              ),
                               Form(
                                 key: formkey,
                                 child: Padding(
-                                  padding:  EdgeInsets.symmetric(horizontal: 25.w),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 25.w),
                                   child: Column(
                                     children: [
-
                                       // NAME FIELD///////////////////////////////////////////////////
                                       Row(
                                         children: [
                                           Text(
                                             '   Name',
                                             style: TextStyle(
-
                                                 fontSize: 20.sp,
                                                 color: Colors.white),
                                           ),
@@ -135,11 +131,11 @@ class RegisterScreen extends  StatelessWidget {
 
                                       defaultFormField(
                                         maxlines: 1,
-                                        suffixColor: SignCubit.get(context).colorr,
+                                        suffixColor:
+                                            SignCubit.get(context).colorr,
                                         bordercircular: 10.r,
                                         isPassword:
-                                        SignCubit.get(context).passvisible,
-
+                                            SignCubit.get(context).passvisible,
                                         suffix: SignCubit.get(context).suffixx,
                                         suffixTab: () {
                                           SignCubit.get(context).passwordvis();
@@ -170,7 +166,6 @@ class RegisterScreen extends  StatelessWidget {
                                       ),
 
                                       defaultFormField(
-
                                         bordercircular: 10.r,
                                         validate: (value) {
                                           if (value!.isEmpty) {
@@ -186,34 +181,42 @@ class RegisterScreen extends  StatelessWidget {
                                       ),
 
                                       ConditionalBuilder(
-                                          condition: state is! SiginRegisterLoadingState,
+                                          condition: state
+                                              is! SiginRegisterLoadingState,
                                           builder: (context) => defaultButton(
-                                            backgroundColor: Colors.blue.shade900,
-
-                                            Texte: 'Sign Up',
-                                            function: () {
-                                              if (formkey.currentState!.validate()) {
-                                                SignCubit.get(context).SigninFirebase(
-                                                    name: namecontorl.text,
-                                                    email: emailcontrol.text,
-                                                    pass: passwordcontrol.text,
-                                                    context: context,
-                                                    phone: phonecontrol.text
-                                                );
-                                              }
-
-
-                                            },
-                                          ),
-                                          fallback: (context) =>  Center(
-                                              child: CircularProgressIndicator(color: Colors.blue.shade900,))),
+                                                backgroundColor:
+                                                    Colors.blue.shade900,
+                                                Texte: 'Sign Up',
+                                                function: () {
+                                                  if (formkey.currentState!
+                                                      .validate()) {
+                                                    SignCubit.get(context)
+                                                        .SigninFirebase(
+                                                            name: namecontorl
+                                                                .text,
+                                                            email: emailcontrol
+                                                                .text,
+                                                            pass:
+                                                                passwordcontrol
+                                                                    .text,
+                                                            context: context,
+                                                            phone: phonecontrol
+                                                                .text);
+                                                  }
+                                                },
+                                              ),
+                                          fallback: (context) => Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                color: Colors.blue.shade900,
+                                              ))),
                                       SizedBox(
                                         height: 30.h,
                                       ),
 
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'have an account? ',
@@ -229,16 +232,16 @@ class RegisterScreen extends  StatelessWidget {
                                                     PageRouteBuilder(
                                                       pageBuilder:
                                                           (_, __, ___) =>
-                                                          loginscreen(),
+                                                              loginscreen(),
                                                       transitionDuration:
-                                                      const Duration(
-                                                          milliseconds:
-                                                          300),
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  300),
                                                       transitionsBuilder:
                                                           (_, a, __, c) =>
-                                                          FadeTransition(
-                                                              opacity: a,
-                                                              child: c),
+                                                              FadeTransition(
+                                                                  opacity: a,
+                                                                  child: c),
                                                     ),
                                                   );
                                                 }
@@ -250,7 +253,7 @@ class RegisterScreen extends  StatelessWidget {
                                                     fontSize: 16.sp,
                                                     color: Colors.blue.shade900,
                                                     fontWeight:
-                                                    FontWeight.bold),
+                                                        FontWeight.bold),
                                               )),
                                         ],
                                       ),
@@ -262,7 +265,6 @@ class RegisterScreen extends  StatelessWidget {
                               ),
                             ],
                           ),
-
                         ],
                       )
                     ],

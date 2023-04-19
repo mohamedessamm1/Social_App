@@ -14,16 +14,10 @@ import 'Signup_States.dart';
 
 class SignCubit extends Cubit<SignStates> {
   SignCubit() : super(SignInitialState());
+
   static SignCubit get(context) => BlocProvider.of(context);
 
-  SigninFirebase({
-    name,
-    email,
-    pass,
-    context,
-    phone,
-    bio
-  }) {
+  SigninFirebase({name, email, pass, context, phone, bio}) {
     emit(SiginRegisterLoadingState());
 
     FirebaseAuth.instance
@@ -33,33 +27,41 @@ class SignCubit extends Cubit<SignStates> {
     )
         .then((value) {
       print('done');
-      GLOBALuid =value.user?.uid;
+      GLOBALuid = value.user?.uid;
       UserCreate(
-        bio: 'The art of living involves knowing when to hold on and when to let go.',
+          bio:
+              'The art of living involves knowing when to hold on and when to let go.',
           name: name.toString().toLowerCase(),
           email: email,
           pass: pass,
           phone: phone,
           uid: value.user?.uid,
-          image: 'https://toowoombaautoservices.com.au/wp-content/uploads/2020/01/person-1824144_1280-1080x1080.png',
+          image:
+              'https://toowoombaautoservices.com.au/wp-content/uploads/2020/01/person-1824144_1280-1080x1080.png',
           ImageBackGround:
               'https://th.bing.com/th/id/OIP.GpxDsdeZVdeaesbxJzeURAHaEK?pid=ImgDet&rs=1');
       emit(SignRegisterSuccessState());
-      CacheHelper.savedata(key:'uid' , value:value.user?.uid);
-      print(CacheHelper.getdata(key:'uid').toString());
+      CacheHelper.savedata(key: 'uid', value: value.user?.uid);
+      print(CacheHelper.getdata(key: 'uid').toString());
       AppCubit.get(context).GetUserData();
       Navigator.pushReplacement(
-
           context, MaterialPageRoute(builder: (context) => HomeLayout()));
-        }).catchError((error) {
+    }).catchError((error) {
       emit(SignRegistrerrorState());
     });
   }
 
   UserCreate({
-    name, email, pass, phone, uid, image, ImageBackGround, bio,})
-  {
-   CreateUserModel globalmodel = CreateUserModel(
+    name,
+    email,
+    pass,
+    phone,
+    uid,
+    image,
+    ImageBackGround,
+    bio,
+  }) {
+    CreateUserModel globalmodel = CreateUserModel(
         name: name,
         email: email,
         password: pass,
@@ -72,14 +74,11 @@ class SignCubit extends Cubit<SignStates> {
         .collection('user')
         .doc(uid)
         .set(globalmodel.tojson())
-        .then((value) {
-
-    });
+        .then((value) {});
   }
 
-
-
   bool RememberMe = false;
+
   void ChangeRememberMe() {
     RememberMe = !RememberMe;
     emit(ChangeRememberMeState());
@@ -88,6 +87,7 @@ class SignCubit extends Cubit<SignStates> {
   bool passvisible = true;
   IconData? suffixx = Icons.visibility_off;
   Color? colorr;
+
   passwordvis() {
     passvisible = !passvisible;
 

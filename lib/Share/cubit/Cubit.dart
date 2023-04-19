@@ -59,10 +59,8 @@ class AppCubit extends Cubit<AppState> {
   int Currentindex = 0;
 
   ChangeBottomNav(index) {
-    if (index == 1)
-    {
+    if (index == 1) {
       GetAllUsersData();
-
     }
     Currentindex = index;
     emit(ChangeBottomNavState());
@@ -71,9 +69,10 @@ class AppCubit extends Cubit<AppState> {
   List<Widget> screens = [
     const HomeScreen(),
     const ChatsScreen1(),
-     callscreen(),
+    callscreen(),
     const SettingsScreen(),
   ];
+
   File? profileImage;
   final ImagePicker profilepicker = ImagePicker();
 
@@ -92,6 +91,38 @@ class AppCubit extends Cubit<AppState> {
 
   File? PostImag;
   final ImagePicker PostPick = ImagePicker();
+
+  File? ChatImage;
+  final ImagePicker ChatPicker = ImagePicker();
+
+  Future PickChatImage() async {
+    final pickfile = await ChatPicker.pickImage(source: ImageSource.gallery);
+    if (pickfile != null) {
+      ChatImage = File(pickfile.path);
+      UploadChatImage();
+      emit(PickChatImageSuccesState());
+    } else {
+      print('no image ');
+      emit(PickChatImageErrorState());
+    }
+  }
+
+  UploadChatImage() {
+    emit(UploadChatImageLoadingState());
+    FirebaseStorage.instance
+        .ref()
+        .child('image/${Uri.file(ChatImage!.path).pathSegments.last}')
+        .putFile(ChatImage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        NewChatImage = value.toString();
+        print(value.toString());
+      });
+      emit(UploadChatImageSuccessState());
+    }).catchError((Error) {
+      emit(UploadChatImageErrorState());
+    });
+  }
 
   Future PostImage() async {
     final pickPostfile = await PostPick.pickImage(source: ImageSource.gallery);
@@ -130,6 +161,12 @@ class AppCubit extends Cubit<AppState> {
     emit(RemovePostImageSuccessState());
   }
 
+  CancelChatImage() {
+    ChatImage = null;
+    NewChatImage = null;
+    emit(RemovePostImageSuccessState());
+  }
+
   File? CoverImage;
   final ImagePicker CoverPick = ImagePicker();
 
@@ -147,6 +184,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   String? NewProfileImage;
+  String? NewChatImage;
   String? NewCoverImage;
 
   UploadProfileImage() {
@@ -192,7 +230,10 @@ class AppCubit extends Cubit<AppState> {
     phone,
   }) {
     emit(UpdateUserDataLoadingState());
-    FirebaseFirestore.instance.collection('user').doc(CacheHelper.getdata(key: 'uid').toString()).update({
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(CacheHelper.getdata(key: 'uid').toString())
+        .update({
       'ImageBackGround': NewCoverImage ?? userModel?.ImageBackGround,
       'image': NewProfileImage ?? userModel?.image,
       'bio': bio ?? userModel?.bio,
@@ -224,7 +265,10 @@ class AppCubit extends Cubit<AppState> {
     name,
   }) {
     emit(UpdateUserNameDataLoadingState());
-    FirebaseFirestore.instance.collection('user').doc(CacheHelper.getdata(key: 'uid').toString()).update({
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(CacheHelper.getdata(key: 'uid').toString())
+        .update({
       'ImageBackGround': userModel?.ImageBackGround,
       'image': userModel?.image,
       'bio': userModel?.bio,
@@ -242,7 +286,10 @@ class AppCubit extends Cubit<AppState> {
     bio,
   }) {
     emit(UpdateUserBioDataLoadingState());
-    FirebaseFirestore.instance.collection('user').doc(CacheHelper.getdata(key: 'uid').toString()).update({
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(CacheHelper.getdata(key: 'uid').toString())
+        .update({
       'ImageBackGround': userModel?.ImageBackGround,
       'image': userModel?.image,
       'bio': bio ?? userModel?.bio,
@@ -260,7 +307,10 @@ class AppCubit extends Cubit<AppState> {
     phone,
   }) {
     emit(UpdateUserPhoneDataLoadingState());
-    FirebaseFirestore.instance.collection('user').doc(CacheHelper.getdata(key: 'uid').toString()).update({
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(CacheHelper.getdata(key: 'uid').toString())
+        .update({
       'ImageBackGround': userModel?.ImageBackGround,
       'image': userModel?.image,
       'bio': userModel?.bio,
@@ -283,7 +333,7 @@ class AppCubit extends Cubit<AppState> {
       PostImage: POSTIMAGE,
       Time: DateTime.now().toString(),
       uid: GLOBALuid,
-        postindex: DateTime.now().microsecondsSinceEpoch,
+      postindex: DateTime.now().microsecondsSinceEpoch,
     );
     FirebaseFirestore.instance
         .collection('post')
@@ -347,19 +397,18 @@ class AppCubit extends Cubit<AppState> {
 
   List<CreateUserModel> users = [];
 
-  Future<void>? GetPosts()  {
+  Future<void>? GetPosts() {
     Likes.clear();
     emit(GetPostsLoadingState());
-     FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('post')
-        .orderBy('Time',descending: true)
+        .orderBy('Time', descending: true)
         .get()
         .then((value) {
       posts = value.docs.map((element) => element.data()).toList();
       PostId = value.docs.map((element) => element.id).toList();
       value.docs.forEach(
           (element) => element.reference.collection('like').get().then((value) {
-            
                 Likes.add(value.docs.length);
                 print(Likes);
 
@@ -368,24 +417,20 @@ class AppCubit extends Cubit<AppState> {
                 emit(GetPostLikeErrorState());
               }));
       emit(GetPostsState());
-
     }).catchError((error) {
       emit(GetPostsErrorState());
     });
   }
 
-
-  Future<void>? DeletePost(postid)  {
+  Future<void>? DeletePost(postid) {
     emit(DeletePostsLoadingState());
     FirebaseFirestore.instance
-        .collection('post').
-    doc(postid)
+        .collection('post')
+        .doc(postid)
         .delete()
         .then((value) {
-
       emit(DeletePostsState());
       GetPosts();
-
     }).catchError((error) {
       emit(DeletePostsErrorState());
     });
@@ -413,25 +458,26 @@ class AppCubit extends Cubit<AppState> {
   GetAllUsersData() {
     emit((GetAllUsersDataLoadingState()));
     users.clear();
-      FirebaseFirestore.instance.collection('user').get().then((value) {
-        value.docs.forEach((element) {
-          if (element.data()['uid'] != userModel?.uid) {
-            users.add(CreateUserModel.fromjson(element.data()));
-          }
-        });
-        emit((GetAllUsersDataState()));
-      }).catchError((error) {
-        emit((GetAllUsersDataErrorState()));
+    FirebaseFirestore.instance.collection('user').get().then((value) {
+      value.docs.forEach((element) {
+        if (element.data()['uid'] != userModel?.uid) {
+          users.add(CreateUserModel.fromjson(element.data()));
+        }
       });
-
+      emit((GetAllUsersDataState()));
+    }).catchError((error) {
+      emit((GetAllUsersDataErrorState()));
+    });
   }
 
   sendMessage({
     required DateTime,
-    required Text,
+    Text,
     required ReceiverId,
+    image,
   }) {
     MessageModel messageModel = MessageModel(
+      Image: image,
       DateTime: DateTime,
       SenderId: userModel?.uid,
       Text: Text,
@@ -446,6 +492,7 @@ class AppCubit extends Cubit<AppState> {
         .add(messageModel.tojson())
         .then((value) {
       emit(SuccessSendMessageState());
+      getScroll();
       print('send succes');
     }).catchError((Error) {
       emit(ErrorSendMessageState());
@@ -466,6 +513,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   List<MessageModel> ChatMessage = [];
+
   GetMessage({
     required ReceiverId,
   }) {
@@ -481,32 +529,24 @@ class AppCubit extends Cubit<AppState> {
       ChatMessage = [];
       event.docs.forEach((element) {
         ChatMessage.add(MessageModel.fromjson(element.data()));
+        getScroll();
       });
       emit(SuccessMessageState());
     });
   }
+
   ScrollController scrollController = ScrollController();
+  double itemsize = 100;
 
-   getScroll() async{
-
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    });
-emit(SuccessScrollState());
-  }
-  int buttn=0;
-  buttontoggle(changebutton){
-     buttn=changebutton;
-     emit(SuccesButtonChangeState());
+  getScroll() {
+    scrollController.jumpTo(scrollController.position.maxScrollExtent + 100);
+    emit(SuccessScrollState());
   }
 
+  int buttn = 0;
 
-
-
-
+  buttontoggle(changebutton) {
+    buttn = changebutton;
+    emit(SuccesButtonChangeState());
+  }
 }
